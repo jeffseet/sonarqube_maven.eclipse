@@ -19,13 +19,6 @@ public class SongCollection {
 	private LocalDateTime timeCreated;
 
 	public SongCollection() {
-		/*
-		 * songs.add(new Song("0001","good 4 u","Olivia Rodrigo",3.59)); songs.add(new
-		 * Song("0002","Peaches","Justin Bieber",3.18)); songs.add(new
-		 * Song("0003","MONTERO","Lil Nas X",2.3)); songs.add(new
-		 * Song("0004","bad guy","Billie Eilish",3.14));
-		 */
-
 		this.capacity = 20;
 		this.timeCreated = LocalDateTime.now();
 	}
@@ -54,12 +47,12 @@ public class SongCollection {
 		}
 	}
 
-	public ArrayList<Song> sortSongsByTitle() {
+	public List<Song> sortSongsByTitle() {
 		Collections.sort(songs, Song.titleComparator);
 		return songs;
 	}
 
-	public ArrayList<Song> sortSongsBySongLength() {
+	public List<Song> sortSongsBySongLength() {
 		Collections.sort(songs, Song.songLengthComparator);
 		return songs;
 	}

@@ -1,107 +1,109 @@
 package com.sddevops.sonarqube_maven.eclipse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SongTest {
+
 	private Song song;
 	private Song song2;
-	private Song song3;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		song = new Song("111", "Love Story", "Taylor Swift", 5.55);
 	}
 
 	@AfterEach
-	void tearDown() throws Exception {
+	void tearDown() {
 		song = null;
 		song2 = null;
-		song3 = null;
-
 	}
 
 	@Test
-	void testHashCode() {
-		song = new Song("111", "Love Story", "Taylor Swift", 5.55);
-		song2 = new Song("111", "Love Story", "Taylor Swift", 5.55);
-		song3 = new Song("222", "Not Love Story", "Not Taylor Swift", 5.55);
-
-		int firstSongHash = song.hashCode();
-		int secondSongHash = song2.hashCode();
-		int thirdSongHash = song3.hashCode();
-
-		assertEquals(firstSongHash, secondSongHash);
-		assertFalse(firstSongHash == thirdSongHash);
-
-	}
-
-	@Test
-	void testSong() {
-		song2 = new Song("222", "Addicted", "Simple Plan", 5.55);
-		assertEquals(song2.getArtiste(), "Simple Plan");
-	}
-
-	@Test
-	void testGetId() {
-		assertEquals(song.getId(), "111");
+	void testSongConstructorAndGetters() {
+		song2 = new Song("222", "Addicted", "Simple Plan", 4.44);
+		assertEquals("222", song2.getId());
+		assertEquals("Addicted", song2.getTitle());
+		assertEquals("Simple Plan", song2.getArtiste());
+		assertEquals(4.44, song2.getSongLength());
 	}
 
 	@Test
 	void testSetId() {
 		song.setId("555");
-		assertEquals(song.getId(), "555");
-	}
-
-	@Test
-	void testGetTitle() {
-		assertEquals(song.getTitle(), "Love Story");
+		assertEquals("555", song.getId());
 	}
 
 	@Test
 	void testSetTitle() {
-		song.setTitle("Not Love story");
-		assertEquals(song.getTitle(), "Not Love story");
-	}
-
-	@Test
-	void testGetArtiste() {
-		assertEquals(song.getArtiste(), "Taylor Swift");
+		song.setTitle("Not Love Story");
+		assertEquals("Not Love Story", song.getTitle());
 	}
 
 	@Test
 	void testSetArtiste() {
 		song.setArtiste("Not Taylor");
-		assertEquals(song.getArtiste(), "Not Taylor");
-	}
-
-	@Test
-	void testGetSongLength() {
-		assertEquals(song.getSongLength(), 5.55);
-
+		assertEquals("Not Taylor", song.getArtiste());
 	}
 
 	@Test
 	void testSetSongLength() {
 		song.setSongLength(3.33);
-
-		assertEquals(song.getSongLength(), 3.33);
+		assertEquals(3.33, song.getSongLength());
 	}
 
 	@Test
 	void testEqualsObject() {
-		Song song3 = new Song("111", "Love Story", "Taylor Swift", 5.55);
-		Song song4 = new Song("222", "I'm Just A Kid", "Simple Plan", 4.44);
+		Song sameSong = new Song("111", "Love Story", "Taylor Swift", 5.55);
+		Song differentSong = new Song("222", "I'm Just A Kid", "Simple Plan", 4.44);
 
-		assertTrue(song.equals(song));
-		assertFalse(song.equals("123"));
-		assertTrue(song.equals(song3));
-		assertFalse(song.equals(song4));
+		assertEquals(song, song); // self comparison
+		assertNotEquals("123", song); // different type
+		assertEquals(song, sameSong); // equal values
+		assertNotEquals(song, differentSong); // different values
 	}
 
+	@Test
+	void testHashCode() {
+		song2 = new Song("111", "Love Story", "Taylor Swift", 5.55);
+		Song differentSong = new Song("222", "Not Love Story", "Not Taylor Swift", 5.55);
+
+		int firstSongHash = song.hashCode();
+		int secondSongHash = song2.hashCode();
+		int thirdSongHash = differentSong.hashCode();
+
+		assertEquals(firstSongHash, secondSongHash);
+		assertNotEquals(firstSongHash, thirdSongHash);
+	}
+
+	@Test
+	void testToString() {
+		assertEquals("Love Story by Taylor Swift", song.toString());
+	}
+
+	@Test
+	void testTitleComparator() {
+		Song a = new Song("1", "A Song", "Artist A", 3.0);
+		Song b = new Song("2", "B Song", "Artist B", 3.0);
+		Song c = new Song("3", "A Song", "Artist C", 2.0);
+
+		assertEquals(-1, Song.titleComparator.compare(a, b)); // A < B
+		assertEquals(0, Song.titleComparator.compare(a, c)); // A == A
+		assertEquals(1, Song.titleComparator.compare(b, a)); // B > A
+	}
+
+	@Test
+	void testSongLengthComparator() {
+		Song a = new Song("1", "Song A", "Artist A", 4.0);
+		Song b = new Song("2", "Song B", "Artist B", 5.0);
+		Song c = new Song("3", "Song C", "Artist C", 4.0);
+
+		assertEquals(-1, Song.songLengthComparator.compare(b, a)); // b(5.0) before a(4.0)
+		assertEquals(0, Song.songLengthComparator.compare(a, c)); // equal lengths
+		assertEquals(1, Song.songLengthComparator.compare(a, b)); // a(4.0) after b(5.0)
+	}
 }

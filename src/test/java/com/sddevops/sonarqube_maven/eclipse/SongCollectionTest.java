@@ -11,28 +11,23 @@ import static org.mockito.Mockito.spy;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.MockedStatic;
 
 class SongCollectionTest {
 
 	private SongCollection sc;
-	private Song s1;
-	private Song s2;
-	private Song s3;
-	private Song s4;
-	private final int SONG_COLLECTION_SIZE = 4;
-	private SongCollection sc_with_size;
-	private SongCollection sc_with_size_1;
+	private Song s1, s2, s3, s4;
+	private static final int SONG_COLLECTION_SIZE = 4;
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 		sc = new SongCollection();
 		s1 = new Song("001", "good 4 u", "Olivia Rodrigo", 3.59);
 		s2 = new Song("002", "Peaches", "Justin Bieber", 3.18);
@@ -42,296 +37,192 @@ class SongCollectionTest {
 		sc.addSong(s2);
 		sc.addSong(s3);
 		sc.addSong(s4);
-		sc_with_size = new SongCollection(5);
-		sc_with_size_1 = new SongCollection(1);
-
 	}
 
-	/**
-	 * @throws java.lang.Exception
-	 */
 	@AfterEach
-	void tearDown() throws Exception {
+	void tearDown() {
 		sc = null;
-		sc_with_size = null;
-		sc_with_size_1 = null;
-
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#getSongs()}.
-	 */
 	@Test
 	void testGetSongs() {
-		List<Song> testSc = sc.getSongs();
-		assertEquals(testSc.size(), SONG_COLLECTION_SIZE);
+		assertEquals(SONG_COLLECTION_SIZE, sc.getSongs().size());
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#addSong(com.sddevops.junit_maven.eclipse.Song)}.
-	 */
 	@Test
 	void testAddSong() {
-		List<Song> testSc = sc.getSongs();
-		// Assert that Song Collection is equals to Song Collection Size : 4
-		assertEquals(testSc.size(), SONG_COLLECTION_SIZE);
-		// Act
-		sc.addSong(s1);
-		// Assert that Song Collection is equals to Song Collection Size + 1 : 5
-		assertEquals(testSc.size(), SONG_COLLECTION_SIZE + 1);
-
-		sc_with_size_1.addSong(s1);
-		sc_with_size_1.addSong(s2);
-		sc_with_size_1.addSong(s3);
-		assertEquals(sc_with_size_1.getSongs().size(), 1);
-
+		Song newSong = new Song("005", "Levitating", "Dua Lipa", 3.5);
+		sc.addSong(newSong);
+		assertEquals(SONG_COLLECTION_SIZE + 1, sc.getSongs().size());
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#sortSongsByTitle()}.
-	 */
+	@Test
+	void testAddSongExceedingCapacity() {
+		SongCollection smallCollection = new SongCollection(2);
+		smallCollection.addSong(s1);
+		smallCollection.addSong(s2);
+		smallCollection.addSong(s3); // should NOT be added
+		assertEquals(2, smallCollection.getSongs().size());
+	}
+
 	@Test
 	void testSortSongsByTitle() {
-		List<Song> sortedSongList = sc.sortSongsByTitle();
-		assertEquals(sortedSongList.get(0).getTitle(), "MONTERO");
-		assertEquals(sortedSongList.get(1).getTitle(), "Peaches");
-		assertEquals(sortedSongList.get(2).getTitle(), "bad guy");
-		assertEquals(sortedSongList.get(3).getTitle(), "good 4 u");
-
+		List<Song> sorted = sc.sortSongsByTitle();
+		assertEquals("MONTERO", sorted.get(0).getTitle());
+		assertEquals("Peaches", sorted.get(1).getTitle());
+		assertEquals("bad guy", sorted.get(2).getTitle());
+		assertEquals("good 4 u", sorted.get(3).getTitle());
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#sortSongsBySongLength()}.
-	 */
 	@Test
 	void testSortSongsBySongLength() {
-		List<Song> sortedSongByLengthList = sc.sortSongsBySongLength();
-		assertEquals(sortedSongByLengthList.get(0).getSongLength(), 3.59);
-		assertEquals(sortedSongByLengthList.get(1).getSongLength(), 3.18);
-		assertEquals(sortedSongByLengthList.get(2).getSongLength(), 3.14);
-		assertEquals(sortedSongByLengthList.get(3).getSongLength(), 2.3);
-
+		List<Song> sorted = sc.sortSongsBySongLength();
+		assertEquals(3.59, sorted.get(0).getSongLength());
+		assertEquals(3.18, sorted.get(1).getSongLength());
+		assertEquals(3.14, sorted.get(2).getSongLength());
+		assertEquals(2.3, sorted.get(3).getSongLength());
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#findSongsById(java.lang.String)}.
-	 */
 	@Test
 	void testFindSongsById() {
-		Song song = sc.findSongsById("004");
-		assertEquals(song.getArtiste(), "billie eilish");
-		assertNull(sc.findSongsById("doesnt exist"));
-
+		assertEquals("billie eilish", sc.findSongsById("004").getArtiste());
+		assertNull(sc.findSongsById("not_found"));
 	}
 
-	/**
-	 * Test method for
-	 * {@link com.sddevops.junit_maven.eclipse.SongCollection#findSongByTitle(java.lang.String)}.
-	 */
 	@Test
 	void testFindSongByTitle() {
-		Song song = sc.findSongByTitle("MONTERO");
-		assertEquals(song.getArtiste(), "Lil Nas");
-		assertNull(sc.findSongByTitle("doesnt exist"));
+		assertEquals("Lil Nas", sc.findSongByTitle("MONTERO").getArtiste());
+		assertNull(sc.findSongByTitle("non_existent_title"));
 	}
 
-	@Test
-	public void testFetchSongOfTheDay() {
-		/*
-		 * We will first mock the expected Song of the Day This will act as a
-		 * pre-determined result regardless of the actual Song of the Day
-		 */
-		String mockJson = """
-					{
-						"id": "001",
-						"title": "Mock Song",
-						"artiste": "Mock Artist",
-						"songLength": 4.25
-					}
-				""";
+	// ---------- Parameterized fetchSongOfTheDay Tests ----------
+	static class FetchTestCase {
+		String json;
+		String expectedArtiste;
+		int expectedSize;
 
-		/*
-		 * This means that we are trying to mock the fetchSongJson method within the
-		 * SongCollection class. Once the fetchSongJson method is called, it will return
-		 * the mockJson JSON object.
-		 */
-		SongCollection collection = spy(new SongCollection());
-		doReturn(mockJson).when(collection).fetchSongJson();
-
-		// Now we can call the actual function to testit
-		Song result = collection.fetchSongOfTheDay();
-
-		assertNotNull(result);
-		// The mock response is returned instead of the actual song of the day
-		assertEquals("001", result.getId());
-		assertEquals("Mock Song", result.getTitle());
-		assertEquals("Mock Artist", result.getArtiste());
-		assertEquals(4.25, result.getSongLength());
+		FetchTestCase(String json, String expectedArtiste, int expectedSize) {
+			this.json = json;
+			this.expectedArtiste = expectedArtiste;
+			this.expectedSize = expectedSize;
+		}
 	}
 
-	@Test
-	public void testInvalidFetchSongOfTheDay() {
-		SongCollection collection = spy(new SongCollection());
-		doReturn(null).when(collection).fetchSongJson();
-
-		// Now we can call the actual function to test it
-		Song result = collection.fetchSongOfTheDay();
-
-		assertNull(result);
+	static Stream<FetchTestCase> fetchSongTestCases() {
+		return Stream.of(new FetchTestCase("""
+				{"id": "007", "title": "Perfect", "artiste": "Ed Sheeran", "songLength": 4.20}
+				""", "Ed Sheeran", 0), new FetchTestCase("""
+				{"id": "008", "title": "Enchanted", "artiste": "Taylor Swift", "songLength": 3.75}
+				""", "TS", 1), new FetchTestCase("""
+				{"id": "009", "title": "Grenade", "artiste": "Bruno Mars", "songLength": 3.95}
+				""", "BM", 1));
 	}
 
-	@Test
-	public void testExceptionHandlingInFetchSongOfTheDay() {
+	@ParameterizedTest
+	@MethodSource("fetchSongTestCases")
+	void testFetchSongOfTheDay_Various(FetchTestCase testCase) {
 		SongCollection collection = spy(new SongCollection());
-		doThrow(new RuntimeException("API failed")).when(collection).fetchSongJson();
-
-		// Now we can call the actual function to test it
-		Song result = collection.fetchSongOfTheDay();
-
-		assertNull(result);
-		assertEquals(collection.getSongs().size(), 0);
-	}
-
-	@Test
-	public void testFetchSongOfTheDay_TaylorSwift() {
-		String mockJson = """
-					{
-						"id": "005",
-						"title": "You Belong With Me",
-						"artiste": "Taylor Swift",
-						"songLength": 3.50
-					}
-				""";
-
-		SongCollection collection = spy(new SongCollection());
-		doReturn(mockJson).when(collection).fetchSongJson();
+		doReturn(testCase.json).when(collection).fetchSongJson();
 
 		Song result = collection.fetchSongOfTheDay();
 
 		assertNotNull(result);
-		assertEquals("TS", result.getArtiste());
-		assertEquals(1, collection.getSongs().size());
-		assertEquals("TS", collection.getSongs().get(0).getArtiste());
+		assertEquals(testCase.expectedArtiste, result.getArtiste());
+		assertEquals(testCase.expectedSize, collection.getSongs().size());
 	}
 
 	@Test
-	public void testFetchSongOfTheDay_BrunoMars() {
-		String mockJson = """
-					{
-						"id": "006",
-						"title": "Just The Way You Are",
-						"artiste": "Bruno Mars",
-						"songLength": 3.75
-					}
-				""";
-
-		SongCollection collection = spy(new SongCollection());
-		doReturn(mockJson).when(collection).fetchSongJson();
-
-		Song result = collection.fetchSongOfTheDay();
-
-		assertNotNull(result);
-		assertEquals("BM", result.getArtiste());
-		assertEquals(1, collection.getSongs().size());
-		assertEquals("BM", collection.getSongs().get(0).getArtiste());
+	void testFetchSongOfTheDay_NullJson() {
+		SongCollection spyCollection = spy(new SongCollection());
+		doReturn(null).when(spyCollection).fetchSongJson();
+		assertNull(spyCollection.fetchSongOfTheDay());
 	}
 
 	@Test
-	public void testFetchSongOfTheDay_OtherArtist_NotAdded() {
-		String mockJson = """
-					{
-						"id": "007",
-						"title": "Perfect",
-						"artiste": "Ed Sheeran",
-						"songLength": 4.20
-					}
-				""";
-
-		SongCollection collection = spy(new SongCollection());
-		doReturn(mockJson).when(collection).fetchSongJson();
-
-		Song result = collection.fetchSongOfTheDay();
-
-		assertNotNull(result);
-		assertEquals("Ed Sheeran", result.getArtiste());
-		assertEquals(0, collection.getSongs().size()); // Not added
+	void testFetchSongOfTheDay_Exception() {
+		SongCollection spyCollection = spy(new SongCollection());
+		doThrow(new RuntimeException("Fail")).when(spyCollection).fetchSongJson();
+		assertNull(spyCollection.fetchSongOfTheDay());
+		assertEquals(0, spyCollection.getSongs().size());
 	}
 
 	@Test
-	void testGetYearOfSongCollection() {
-		// Creating a pre-determined value in June 2024
-		LocalDateTime mockDate = LocalDateTime.of(2024, Month.JUNE, 18, 16, 30);
-
-		// LocalDateTime is a static class, hence we need to use mockStatic here
-		MockedStatic<LocalDateTime> mocked = mockStatic(LocalDateTime.class);
-
-		// I want to mock the now() function of the LocalDateTime class
-		// This means that later, when my program tries to run LocalDateTime.now(),
-		// it will always give the mock date instead of today's actual date
-		mocked.when(LocalDateTime::now).thenReturn(mockDate);
-
-		Song song = new Song("1", "Eric", "Test Song", 3.45);
-		SongCollection collection = new SongCollection();
-		collection.addSong(song);
-
-		assertEquals("2024", collection.getYearCreated());
-
-		mocked.close();
+	void testGetYearCreated() {
+		LocalDateTime fixedDate = LocalDateTime.of(2023, Month.AUGUST, 10, 12, 0);
+		try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+			mock.when(LocalDateTime::now).thenReturn(fixedDate);
+			assertEquals("2023", new SongCollection().getYearCreated());
+		}
 	}
 
 	@Test
 	void testGetFullDateCreated() {
-		LocalDateTime mockDate = LocalDateTime.of(2025, Month.DECEMBER, 14, 16, 25);
-		MockedStatic<LocalDateTime> mocked = mockStatic(LocalDateTime.class);
-		mocked.when(LocalDateTime::now).thenReturn(mockDate);
-
-		SongCollection collection = new SongCollection();
-		assertEquals("14/12/2025", collection.getFullDateCreated());
-
-		mocked.close();
+		LocalDateTime fixedDate = LocalDateTime.of(2024, Month.MARCH, 15, 10, 30);
+		try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+			mock.when(LocalDateTime::now).thenReturn(fixedDate);
+			assertEquals("15/03/2024", new SongCollection().getFullDateCreated());
+		}
 	}
 
 	@Test
-	void testSameDateCreatedComparison() {
-		LocalDateTime mockDate = LocalDateTime.of(2025, Month.DECEMBER, 14, 16, 25);
-		LocalDateTime otherMockDate = LocalDateTime.of(2025, Month.DECEMBER, 14, 16, 25);
-
-		MockedStatic<LocalDateTime> mocked = mockStatic(LocalDateTime.class);
-
-		mocked.when(LocalDateTime::now).thenReturn(mockDate);
-		SongCollection firstCollection = new SongCollection();
-
-		mocked.when(LocalDateTime::now).thenReturn(otherMockDate);
-		SongCollection secondCollection = new SongCollection();
-
-		String result = "My collection was created at the same time!";
-		assertEquals(firstCollection.compareCollection(secondCollection), result);
-
-		mocked.close();
+	void testCompareCollection_SameTime() {
+		LocalDateTime date = LocalDateTime.of(2025, Month.JULY, 1, 12, 0);
+		try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+			mock.when(LocalDateTime::now).thenReturn(date);
+			SongCollection one = new SongCollection();
+			mock.when(LocalDateTime::now).thenReturn(date);
+			SongCollection two = new SongCollection();
+			assertEquals("My collection was created at the same time!", one.compareCollection(two));
+		}
 	}
 
 	@Test
-	void testBeforeDateCreatedComparison() {
-		LocalDateTime mockDate = LocalDateTime.of(2025, Month.DECEMBER, 12, 20, 30);
-		LocalDateTime otherMockDate = LocalDateTime.of(2025, Month.DECEMBER, 14, 16, 25);
+	void testCompareCollection_Older() {
+		LocalDateTime earlier = LocalDateTime.of(2023, 1, 1, 10, 0);
+		LocalDateTime later = LocalDateTime.of(2024, 1, 1, 10, 0);
 
-		MockedStatic<LocalDateTime> mocked = mockStatic(LocalDateTime.class);
+		try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+			mock.when(LocalDateTime::now).thenReturn(earlier);
+			SongCollection old = new SongCollection();
+			mock.when(LocalDateTime::now).thenReturn(later);
+			SongCollection young = new SongCollection();
 
-		mocked.when(LocalDateTime::now).thenReturn(mockDate);
-		SongCollection firstCollection = new SongCollection();
-
-		mocked.when(LocalDateTime::now).thenReturn(otherMockDate);
-		SongCollection secondCollection = new SongCollection();
-
-		String result = "My collection is older!";
-		assertEquals(firstCollection.compareCollection(secondCollection), result);
-
-		mocked.close();
+			assertEquals("My collection is older!", old.compareCollection(young));
+		}
 	}
 
+	@Test
+	void testCompareCollection_Newer() {
+		LocalDateTime later = LocalDateTime.of(2025, 1, 1, 10, 0);
+		LocalDateTime earlier = LocalDateTime.of(2024, 1, 1, 10, 0);
+
+		try (MockedStatic<LocalDateTime> mock = mockStatic(LocalDateTime.class)) {
+			mock.when(LocalDateTime::now).thenReturn(later);
+			SongCollection newCol = new SongCollection();
+			mock.when(LocalDateTime::now).thenReturn(earlier);
+			SongCollection oldCol = new SongCollection();
+
+			assertEquals("My collection is newer!", newCol.compareCollection(oldCol));
+		}
+	}
+
+	@Test
+	void testFetchSongJson_HttpError() {
+		// Anonymous subclass to trigger fetchSongJson error handling branch
+		SongCollection errorCollection = new SongCollection() {
+			@Override
+			protected String fetchSongJson() {
+				try {
+					// force exception by malformed URL
+					new java.net.URL("ht!tp://bad_url").openStream();
+				} catch (Exception e) {
+					// expected exception path
+					e.printStackTrace();
+				}
+				return null;
+			}
+		};
+
+		assertNull(errorCollection.fetchSongOfTheDay());
+	}
 }

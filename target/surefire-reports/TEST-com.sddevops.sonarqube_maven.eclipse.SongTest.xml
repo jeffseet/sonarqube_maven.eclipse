@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.052" tests="11" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.061" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="SG"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\Dell\AppData\Local\Temp\surefire6300880464522983179\surefirebooter-20250727124447080_3.jar C:\Users\Dell\AppData\Local\Temp\surefire6300880464522983179 2025-07-27T12-44-46_874-jvmRun1 surefire-20250727124447080_1tmp surefire_0-20250727124447080_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Dell\AppData\Local\Temp\surefire3560890909650806126\surefirebooter-20250727213524466_3.jar C:\Users\Dell\AppData\Local\Temp\surefire3560890909650806126 2025-07-27T21-35-24_184-jvmRun1 surefire-20250727213524466_1tmp surefire_0-20250727213524466_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Dell\eclipse-workspace\sonarqube_maven.eclipse\target\test-classes;C:\Users\Dell\eclipse-workspace\sonarqube_maven.eclipse\target\classes;C:\Users\Dell\.m2\repository\org\junit\jupiter\junit-jupiter\5.11.4\junit-jupiter-5.11.4.jar;C:\Users\Dell\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.4\junit-jupiter-api-5.11.4.jar;C:\Users\Dell\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Dell\.m2\repository\org\junit\platform\junit-platform-commons\1.11.4\junit-platform-commons-1.11.4.jar;C:\Users\Dell\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Dell\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.4\junit-jupiter-params-5.11.4.jar;C:\Users\Dell\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.4\junit-jupiter-engine-5.11.4.jar;C:\Users\Dell\.m2\repository\org\junit\platform\junit-platform-engine\1.11.4\junit-platform-engine-1.11.4.jar;C:\Users\Dell\.m2\repository\org\json\json\20240303\json-20240303.jar;C:\Users\Dell\.m2\repository\org\mockito\mockito-core\5.12.0\mockito-core-5.12.0.jar;C:\Users\Dell\.m2\repository\net\bytebuddy\byte-buddy\1.14.15\byte-buddy-1.14.15.jar;C:\Users\Dell\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.15\byte-buddy-agent-1.14.15.jar;C:\Users\Dell\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Dell\AppData\Local\Temp\surefire6300880464522983179\surefirebooter-20250727124447080_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Dell\AppData\Local\Temp\surefire3560890909650806126\surefirebooter-20250727213524466_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.12+8-LTS-286"/>
@@ -50,22 +50,21 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-17\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Users/Dell/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916/jre/bin/server;C:/Users/Dell/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Java\jdk-17\bin;C:\Program Files\Git\cmd;C:\Users\Dell\AppData\Local\Microsoft\WindowsApps;;C:\WINDOWS\System32;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-17\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Users/Dell/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916/jre/bin/server;C:/Users/Dell/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_21.0.7.v20250502-0916/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;%JAVA_HOME%\bin;C:\Program Files\Git\cmd;C:\Users\Dell\AppData\Local\Microsoft\WindowsApps;;C:\WINDOWS\System32;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Oracle Corporation"/>
     <property name="java.vm.version" value="17.0.12+8-LTS-286"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testGetTitle" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.005"/>
-  <testcase name="testGetId" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
-  <testcase name="testSetId" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.002"/>
-  <testcase name="testSong" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.002"/>
-  <testcase name="testGetSongLength" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
-  <testcase name="testGetArtiste" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
-  <testcase name="testEqualsObject" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.004"/>
+  <testcase name="testTitleComparator" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.009"/>
+  <testcase name="testSongConstructorAndGetters" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.002"/>
+  <testcase name="testSetId" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
+  <testcase name="testToString" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.018"/>
+  <testcase name="testEqualsObject" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.007"/>
   <testcase name="testSetSongLength" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.002"/>
-  <testcase name="testHashCode" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.001"/>
-  <testcase name="testSetArtiste" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.001"/>
+  <testcase name="testHashCode" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
+  <testcase name="testSetArtiste" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.003"/>
+  <testcase name="testSongLengthComparator" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.001"/>
   <testcase name="testSetTitle" classname="com.sddevops.sonarqube_maven.eclipse.SongTest" time="0.001"/>
 </testsuite>
