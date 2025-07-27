@@ -1,0 +1,118 @@
+<project xmlns="https://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.sddevops</groupId>
+  <artifactId>sonarqube_maven.eclipse</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>sonarqube_maven.eclipse</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>17</maven.compiler.release>
+    <!-- jacoco properties -->
+    <jacoco.groupId>org.jacoco</jacoco.groupId>
+    <jacoco.artifactId>jacoco-maven-plugin</jacoco.artifactId>
+    <jacoco.version>0.8.12</jacoco.version>
+
+    <!-- SonarQube properties -->
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.language>java</sonar.language>
+
+    <!-- JUnit properties -->
+    <junit-jupiter.groupId>org.junit.jupiter</junit-jupiter.groupId>
+    <junit-jupiter.artifactId>junit-jupiter</junit-jupiter.artifactId>
+    <junit-jupiter.version>5.11.4</junit-jupiter.version>
+
+  	<!-- Sonar project properties -->
+  	<sonar.projectKey>com.sddevops:sonarqube_maven.eclipse</sonar.projectKey>
+  	<sonar.host.url>http://localhost:9000</sonar.host.url>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${junit-jupiter.groupId}</groupId>
+      <artifactId>${junit-jupiter.artifactId}</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20240303</version>
+    </dependency>
+    <!-- Mockito for unit testing -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.12.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- JUnit Jupiter (JUnit 5) -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.12.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.6.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>${jacoco.groupId}</groupId>
+        <artifactId>${jacoco.artifactId}</artifactId>
+        <version>${jacoco.version}</version>
+        <configuration>
+          <formats>XML</formats>
+        </configuration>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- SonarQube Maven Plugin -->
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>4.0.0.4121</version>
+        <configuration>
+          <serverId>sonarqube</serverId> <!-- matches server id in settings.xml -->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
